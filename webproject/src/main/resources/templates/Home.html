@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>होम पेज</title>
+	<style th:replace="includes/style :: style"></style>
+	<link href="style/homeStyle.css" rel="stylesheet" />
+</head>
+
+<body class="backgroundColor">
+	<header th:replace="includes/header :: header"></header>
+	<nav th:fragment="navbar" class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="container-fluid">
+        <div class="nav navbar-nav">
+            <a class="navbar-brand" th:href="@{/home}">Home</a>
+       
+        <ul class="nav navbar-nav">
+            <li><a class="nav-link" th:href="@{/viewMember}"> Members</a></li>
+</ul>
+<ul class="nav navbar-nav">
+            <li><a class="nav-link" th:href="@{/printCollection}">Maintainance</a></li>
+
+            <li><a class="nav-link" th:href="@{/viewCollectionInfo}">Meetings</a></li>    
+        </ul>
+         </div>
+    </div>    
+</nav>
+	
+	<section class="wrapper">
+		<div class="container">
+			<!--<div class="row">
+					<div class="col text-center mb-5">
+						<h1 class="display-4">Bootstrap 4 Cards With Background Image</h1>
+						<p class="lead">Lorem ipsum dolor sit amet at enim hac integer volutpat maecenas pulvinar. </p>
+					</div>
+				</div>-->
+			<div class="row"> <!--justify-content-md-center-->
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+					<a href="/myapp/viewMember">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/customer.jpg');">
+							<img class="card-img d-none" src="images/customer.jpg" alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+
+									<h4 class="card-title text-center ">मेंबर की जानकारी</h4>
+
+								</div>
+
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+					<a href="/myapp/viewAgent">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/coinmoney.jpg');">
+							<img class="card-img d-none" src="images/coinmoney.jpg" alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+
+									<h4 class="card-title text-center ">मेंबर कलेक्शन</h4>
+
+								</div>
+
+							</div>
+						</div>
+					</a>
+				</div>
+
+				<!--<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+						<a href="/myapp/viewCustomer">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/customer.jpg');">
+							<img class="card-img d-none" src="images/customer.jpg"
+								alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+								
+									<h4 class="card-title text-center ">मेंबर जानकारी</h4>
+									
+								</div>
+								
+							</div>
+						</div>
+						</a>
+					</div>-->
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+					<a href="/myapp/viewAgentLocation">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/location.jpg');">
+							<img class="card-img d-none" src="images/location.jpg" alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+
+									<h4 class="card-title text-center ">एजेंट लोकेशन</h4>
+
+								</div>
+
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+					<a href="/myapp/printCollection">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/printer.jpg');">
+							<img class="card-img d-none" src="images/customer.jpg" alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+
+									<h4 class="card-title text-center">प्रिंट कलेक्शन डाटा</h4>
+
+								</div>
+
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+					<a href="/myapp/viewCollectionInfo">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/collection.jpg');">
+							<img class="card-img d-none" src="images/collection.jpg" alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+
+									<h4 class="card-title text-center">कलेक्शन की जानकारी</h4>
+
+								</div>
+
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+					<a href="/myapp/viewCustomerMobileModify">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/phone.jpg');">
+							<img class="card-img d-none" src="images/phone.jpg" alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+
+									<h4 class="card-title text-center">ग्राहक मोबाइल अपडेट</h4>
+
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+				
+				
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+					<a href="/myapp/viewAccountStatement">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/bank-statement.jpg');">
+							<img class="card-img d-none" src="images/bank-statement.jpg" alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+
+									<h4 class="card-title text-center">खाता विवरण</h4>
+
+								</div>
+
+							</div>
+						</div>
+					</a>
+				</div>
+				
+				
+			</div>
+			<!--<div class="row justify-content-md-center">
+				<div class="col-sm-6 col-md-6 col-lg-4 mb-4">
+					<a href="/myapp/viewCustomerMobileModify">
+						<div class="card text-white card-has-bg click-col"
+							style="background-image:url('images/customer.jpg');">
+							<img class="card-img d-none" src="images/customer.jpg" alt="image">
+							<div class="card-img-overlay d-flex flex-column">
+								<div class="card-body">
+
+									<h4 class="card-title text-center">गारंटर</h4>
+
+								</div>
+
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>-->
+		</div>
+	</section>
+	<script th:if="${isMainUser != null}" th:inline="javascript">
+		alert("You Don't have Permission to Access this page!");
+		//window.location.href = '/home';
+	</script>
+	<script th:replace="includes/script :: script"></script>
+	<!--<footer th:replace="includes/footer :: footer"></footer>-->
+</body>
+
+</html>

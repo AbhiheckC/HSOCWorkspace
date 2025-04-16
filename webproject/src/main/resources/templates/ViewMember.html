@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>मेंबर पेज</title>
+	<style th:replace="includes/style :: style"></style>
+	<link href="style/viewAgentStyle.css" rel="stylesheet" />
+</head>
+
+<body class="backgroundColor">
+	<header th:replace="includes/header :: header"></header>
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-sm-12 col-md-12">
+				<a href="/myapp/home" class="btn btn-info text-white float-end">पीछे जाइये</a>
+			</div>
+			<div class="col-sm-12 col-md-12">
+				<h3 class="text-center heading" id="hehe">मेंबर फॉर्म</h3>
+
+				<form th:action="@{/viewMemberList}" method="post" class="singleInputButtonForm">
+					<input type="text" id="name" name="name" placeholder="ग्राहक नाम"
+						class=".ui-box .top-leftStart-backward" required />
+					<input type="submit" class="submitBtn" value="Submit" />
+				</form>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 col-md-12 mt-4" th:if="${memberList != null}">
+				<h3 class="heading text-center">ग्राहक सूची</h3>
+				<div class="text-center">
+					<div class="table-responsive" id="table">
+						<table class="table table-editable">
+							<thead class="thead">
+								<tr class="table-success">
+									<th>ग्राहक क्रमांक</th>
+									<th>खाते क्रमांक</th>
+									<th>खाता प्रकार</th>
+									<th>ग्राहक नाम</th>
+									<th>ग्राहक मोबाइल</th>
+									<th>ग्राहक क्षेत्र</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="member : ${memberList}">
+									<td th:text="${member.customerId}"></td>
+									<td th:text="${member.accountCode}"></td>
+									<td th:utext="${member.accountType}"></td>
+									<td th:utext="${member.localLanguageName}"></td>
+									<td th:text="${member.mobile}"></td>
+									<td th:text="${member.areaname}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:replace="includes/script :: script"></script>
+	<script th:if="${isDataMissing != null}" th:inline="javascript">
+		alert("No data available!");
+	</script>
+	<script th:if="${isCollectionSaved != null}" th:inline="javascript">
+		//alert(th:text = "${isCollectionSaved}");
+		alert([[${#strings.escapeJavaScript(isCollectionSaved)}]]);
+	</script>
+
+
+
+	<!--<footer th:replace="includes/footer :: footer"></footer>-->
+</body>
+
+</html>

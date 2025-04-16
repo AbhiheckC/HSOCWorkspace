@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!--<title>कलेक्शन</title> -->
+	<title>स्वश्रयी महिला सख सहकारी संस्था मर्यादित, इंदौर</title>
+	<style th:replace="includes/style :: style"></style>
+	<link href="style/viewAgentStyle.css" rel="stylesheet" />
+	<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+</head>
+
+<body class="backgroundColor">
+	<header th:replace="includes/header :: header"></header>
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-sm-12 col-md-12">
+				<a href="/myapp/home" class="btn btn-info text-white float-end">पीछे जाइये</a>
+			</div>
+			<div class="col-sm-12 col-md-12">
+				<h3 class="text-center heading" id="hehe">कलेक्शन फॉर्म</h3>
+
+				<form th:action="@{/printCollectionList}" method="post" class="singleInputButtonForm">
+
+					<input type="text" id="customerId" name="customerId" placeholder="ग्राहक क्रमांक"
+						class=".ui-box .top-leftStart-backward" required />
+					<input type="date" id="collectionDate" name="collectionDate" class=".ui-box .top-leftStart-backward"
+						required />
+					<input type="text" id="receiptNo" name="receiptNo" placeholder="रसीद क्रमांक"
+						class=".ui-box .top-leftStart-backward" required />
+
+
+					<input type="submit" class="submitBtn" value="Submit" />
+				</form>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 col-md-12 mt-4" th:if="${collectionList != null}">
+				<h3 class="heading text-center">कलेक्शन सूची</h3>
+				<div class="text-center">
+					<div class="table-responsive" id="table">
+						<div id="printContent">
+							<div id="tableContent">
+								<div class="d-flex flex-row justify-content-around">
+									<div>
+										<h6><b>ग्राहक क्रमांक : </b><span
+												th:text="${collectionList[0].customerId}"></span>
+										</h6>
+										<h6><b>ग्राहक नाम :<span th:utext="${collectionList[0].localLanguageName}">
+											</b></span>
+										</h6>
+									</div>
+									<div>
+										<h6><b>कलेक्शन तारीख : </b><span
+												th:text="${collectionList[0].collectionDate}"></span>
+										</h6>
+										<h6><b>रसीद क्रमांक : </b><span th:text="${collectionList[0].receiptNo}"></span>
+										</h6>
+									</div>
+								</div>
+								<table class="table table-bordered" id="myTablePrintCollection">
+									<thead class="thead-light">
+										<tr class="table-success">
+											<!--<th>ग्राहक क्रमांक</th>
+										<th>कलेक्शन तारीख</th>
+										<th>रसीद क्रमांक</th>-->
+											<th>ग्राहक खाता क्रमांक</th>
+											<th>खाता प्रकार</th>
+											<th>कलेक्शन राशि</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="collection : ${collectionList }">
+											<!--<td th:text="${collection.customerId}"></td>
+										<td th:utext="${collection.collectionDate}"></td>
+										<td th:text="${collection.receiptNo}"></td>-->
+											<td th:text="${collection.accountCode}"></td>
+											<td th:utext="${collection.accountType}"></td>
+											<td th:text="${collection.collectionAmount}"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<button id="printButton" class="btn btn-success" onclick="printJS({ printable: 'tableContent', type: 'html', 
+					style: `
+			        @page {
+			          size: mobile;
+			          margin: 0;
+			        }
+			        @media print and (max-width: 480px) {
+			          body {
+			            margin: 0;
+			          }
+			        }
+			        th, td { border: 1px solid black; padding: 2px; }
+			        body{text-align:left}
+			      `, header: 'स्वश्रयी महिला सख सहकारी संस्था मर्यादित, इंदौर' })">Print</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<script th:replace="includes/script :: script"></script>
+	<!--<script>
+		//function printTable() {
+		//	var printContents = document.getElementById("myTablePrintCollection").outerHTML;
+		//	var originalContents = document.body.innerHTML;
+		//	document.body.innerHTML = printContents;
+		//	window.print();
+		//	document.body.innerHTML = originalContents;
+		//}
+
+
+		//function printTable() {
+		//	var printContents = document.getElementById("myTablePrintCollection").outerHTML;
+		//	var originalContents = document.body.innerHTML;
+		//	//var title = document.title;
+		//	var title = document.title.split(",")[0];
+
+		//	document.body.innerHTML = '<h1 style="font-size: 22px; text-align:center; margin-top:20px;">' + title + '</h1>' + printContents;
+		//	window.print();
+		//	document.body.innerHTML = originalContents;
+		//}
+		function printTable() {
+			var printContents = document.getElementById("printContent").outerHTML;
+			var originalContents = document.body.innerHTML;
+
+			// Create a new window for printing
+			var printWindow = window.open('', '_blank');//, 'height=400,width=600'
+			printWindow.document.open();
+
+			// Set the HTML content for printing
+			printWindow.document.write('<html><head>');
+
+			// Add custom CSS styles for printing
+			printWindow.document.write('<style>');
+			printWindow.document.write('@media print {');
+			printWindow.document.write('  body { font-size: 16px; }'); // Example: increase body font size
+			printWindow.document.write('  table { width: 100%; border-collapse: collapse; }'); // Example: table styles
+			printWindow.document.write('  th, td { border: 1px solid black; padding: 8px; }'); // Example: cell styles
+			printWindow.document.write('  h6{ font-size: 16px; margin: 0;margin-bottom: 10px; }');
+			printWindow.document.write('  h6:nth-child(3){ margin-bottom: 20px; }');
+			printWindow.document.write('}');
+			printWindow.document.write('</style>');
+
+			printWindow.document.write('</head><body>');
+			var title = document.title.split(',')[0];
+
+			// Include the modified title and the table content
+			printWindow.document.write('<h1 style="font-size: 22px;text-align:center;margin-top:20px;">' + title + '</h1>');
+			// Get the additional header rows from the original table
+			// var additionalHeaderRows = document.getElementById("myTablePrintCollection").querySelectorAll("#tableh6");
+
+			// console.log(additionalHeaderRows)
+			// Include the additional header rows in the print
+			// for (var i = 0; i < additionalHeaderRows.length; i++) {
+			// 	printWindow.document.write(additionalHeaderRows[i].outerHTML);
+			// }
+
+			// Include the table content
+			printWindow.document.write(printContents);
+
+			printWindow.document.write('</body></html>');
+
+			printWindow.document.close();
+			printWindow.focus();
+
+			printWindow.onload = function () {
+				printWindow.print();
+				printWindow.close();
+				document.body.innerHTML = originalContents;
+			};
+		}
+		``
+
+
+
+	</script>
+
+	<script>
+
+		//document.getElementById('myTablePrintCollection').addEventListener('click', function () {
+		//	printTable();
+		///});
+
+		function printTable() {
+			//var printContents = document.getElementById("tableContent").innerHTML;
+			var printContents = document.getElementById("tableContent").innerHTML;
+
+			printJS({
+				printable: printContents,
+				type: 'html',
+				style: `
+			        @page {
+			          size: mobile;
+			          margin: 0;
+			        }
+			        @media print and (max-width: 480px) {
+			          body {
+			            margin: 0;
+			          }
+			        }
+			      `,
+				documentTitle: 'Print Table',
+				header: '<h1>स्वश्रयी महिला सख सहकारी संस्था मर्यादित, इंदौर</h1>',
+				onPrintDialogClose: function () {
+					console.log('Print dialog closed');
+				}
+			});
+		}
+	</script>-->
+
+	<script th:if="${isDataMissing != null}" th:inline="javascript">
+		alert("No data available!");
+	</script>
+	<script th:if="${isCollectionSaved != null}" th:inline="javascript">
+		//alert(th:text = "${isCollectionSaved}");
+		alert([[${#strings.escapeJavaScript(isCollectionSaved)}]]);
+	</script>
+
+
+
+	<!--<footer th:replace="includes/footer :: footer"></footer>-->
+</body>
+
+</html>

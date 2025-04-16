@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>मेंबर लोकेशन पेज</title>
+	<style th:replace="includes/style :: style"></style>
+	<link href="style/agentLocationStyle.css" rel="stylesheet" />
+</head>
+
+<body class="backgroundColor">
+	<header th:replace="includes/header :: header"></header>
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-sm-12 col-md-12">
+				<a href="/myapp/home" class="btn btn-info text-white float-end">पीछे जाइये</a>
+			</div>
+			<div class="col-sm-12 col-md-12">
+				<form th:action="@{/getAgentLocation}" method="post" class="singleInputButtonForm form">
+					<h3 class="text-center heading">एजेंट लोकेशन फॉर्म</h3>
+					<input type="text" id="agentId" name="agentId" placeholder="एजेंट आईडी"
+						class=".ui-box .top-leftStart-backward" required />
+					<input type="submit" class="submitBtn" value="Submit" />
+				</form>
+			</div>
+		</div>
+
+		<div><!--th:if="${agentLocations != null}" -->
+			<div class="row agentLocationDiv" th:each="location : ${agentLocations}">
+				<div class="col mt-4">
+					<div class="mb-4">
+						<div class="text-center" id="agentMapBtnDiv">
+							<!--<img th:src="@{'data:image/jpeg;base64,' + ${customer.signature}}" alt="avatar"
+								class="img-fluid" style="width:250px; height:150px">-->
+							<div class="row">
+								<div class="col-12 info">
+									<h6><b>एजेंट आईडी : </b><span th:text="${location.agentId}"></span></h6>
+								</div>
+								<div class="col-12 info">
+									<h6><b>एजेंट नाम : </b><span th:text="${location.agentName}"></span></h6>
+								</div>
+							</div>
+
+							<input type="hidden" id="latitude" name="latitude" th:value="${location.latitude}" />
+							<input type="hidden" id="longitude" name="longitude" th:value="${location.longitude}" />
+							<button onclick="openMap()" id="mapBtn" class="blackBtn">लोकेशन</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="mapDiv">
+				<div id="mapholder">
+				</div>
+				<button onclick="closeMap()" id="closeMapBtn" class="blackBtn">Close</button>
+			</div>
+		</div>
+		<script th:replace="includes/script :: script"></script>
+		<script th:if="${isDataMissing != null}">
+			alert("No data available!");
+		</script>
+		<!--Multiple Location Script-->
+		<!--<script>
+			function openMap() {
+				var mapDiv = document.getElementById('mapholder');
+				var displaySetting = mapDiv.style.display;
+				var closeMapBtn = document.getElementById('closeMapBtn');
+
+				if (displaySetting == 'block') {
+					mapDiv.style.display = 'none';
+					closeMapBtn.style.display = 'none';
+				} else {
+					mapDiv.style.display = 'block';
+					closeMapBtn.style.display = 'block';
+					getLocation();
+				}
+			}
+
+			function closeMap() {
+				var mapDiv = document.getElementById('mapholder');
+				var closeMapBtn = document.getElementById('closeMapBtn');
+				mapDiv.style.display = 'none';
+				closeMapBtn.style.display = 'none';
+			}
+
+			function getLocation() {
+				var locations = [
+					{lat: 22.7655208, lon: 75.5487587},
+					{lat: 22.7225208, lon: 75.9487587},
+					{lat: 22.7875208, lon: 75.7487587}
+					// Add more locations here as needed
+				];
+
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(function (position) {
+						var lat = position.coords.latitude;
+						var lon = position.coords.longitude;
+						showPosition(lat, lon, locations);
+					}, showError);
+				} else {
+					showError({code: error.UNKNOWN_ERROR});
+				}
+			}
+
+			function showPosition(lat, lon, locations) {
+				var mapDiv = document.getElementById('mapholder');
+				var latlon = new google.maps.LatLng(lat, lon);
+				var myOptions = {
+					center: latlon,
+					zoom: 14,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					mapTypeControl: false,
+					navigationControlOptions: {
+						style: google.maps.NavigationControlStyle.SMALL
+					}
+				};
+
+				var map = new google.maps.Map(document.getElementById('mapholder'), myOptions);
+
+				// Loop through the locations array and add markers for each location
+				for (var i = 0; i < locations.length; i++) {
+					var location = locations[i];
+					var locationLatLon = new google.maps.LatLng(location.lat, location.lon);
+					var marker = new google.maps.Marker({
+						position: locationLatLon,
+						map: map,
+						title: "Location " + (i + 1)
+					});
+				}
+
+				// Add a marker for the user's current position
+				var userMarker = new google.maps.Marker({
+					position: latlon,
+					map: map,
+					title: "You are here!"
+				});
+			}
+
+			function showError(error) {
+				switch (error.code) {
+					case error.PERMISSION_DENIED:
+						alert("User denied the request for Geolocation.");
+						break;
+					case error.POSITION_UNAVAILABLE:
+						alert("Location information is unavailable.");
+						break;
+					case error.TIMEOUT:
+						alert("The request to get user location timed out.");
+						break;
+					case error.UNKNOWN_ERROR:
+						alert("An unknown error occurred.");
+						break;
+				}
+			}
+
+		</script>-->
+		<!--Single Location Script-->
+		<script>
+			function openMap() {
+				var mapDiv = document.getElementById('mapholder');
+
+				var displaySetting = mapDiv.style.display;
+
+				var closeMapBtn = document.getElementById('closeMapBtn');
+
+				if (displaySetting == 'block') {
+					mapDiv.style.display = 'none';
+					closeMapBtn.style.display = 'none';
+				}
+				else {
+					mapDiv.style.display = 'block';
+					closeMapBtn.style.display = 'block';
+					//mapButton.innerHTML = 'Close Map';
+					getLocation();
+				}
+			}
+			function closeMap() {
+				var mapDiv = document.getElementById('mapholder');
+				var displaySetting = mapDiv.style.display;
+				var closeMapBtn = document.getElementById('closeMapBtn');
+				if (displaySetting == 'block') {
+					mapDiv.style.display = 'none';
+					closeMapBtn.style.display = 'none';
+				}
+			}
+			function getLocation() {
+				var latitudeInput = document.getElementById("latitude");
+				var longitudeInput = document.getElementById("longitude");
+				var lat = latitudeInput.value;
+				var lon = longitudeInput.value;
+				console.log("lat--", lat)
+				console.log("lon--", lon)
+				if (lat && lon) {
+					showPosition(lat, lon);
+				} else {
+					if (navigator.geolocation) {
+						navigator.geolocation.getCurrentPosition(function (position) {
+							var lat = position.coords.latitude;
+							var lon = position.coords.longitude;
+							showPosition(lat, lon);
+						}, showError);
+					} else {
+						showError({code: error.UNKNOWN_ERROR});
+					}
+				}
+			}
+			
+			function showPosition(lat, lon) {
+				var latlon = new google.maps.LatLng(lat, lon);
+				var mapholder = document.getElementById('mapholder');
+
+				var myOptions = {
+					center: latlon,
+					zoom: 14,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					mapTypeControl: false,
+					navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL}
+				};
+
+				var map = new google.maps.Map(document.getElementById("mapholder"), myOptions);
+				var marker = new google.maps.Marker({position: latlon, map: map, title: "You are here!"});
+			}
+
+			function showError(error) {
+				switch (error.code) {
+					case error.PERMISSION_DENIED:
+						alert("User denied the request for Geolocation.")
+						break;
+					case error.POSITION_UNAVAILABLE:
+						alert("Location information is unavailable.")
+						break;
+					case error.TIMEOUT:
+						alert("The request to get user location timed out.")
+						break;
+					case error.UNKNOWN_ERROR:
+						alert("An unknown error occurred.")
+						break;
+				}
+			}
+		</script>
+		<script
+			src="https://maps.google.com/maps/api/js?key=AIzaSyALw7Ir5EeLpFWv0YYEfS6mrnNwGJxyvWA&callback=getLocation"
+			defer="true" async="true"></script>
+
+</body>
+
+</html>

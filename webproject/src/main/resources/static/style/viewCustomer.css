@@ -1,0 +1,37 @@
+.customerInfoDiv{
+	width:90%;
+	margin: 0 auto;
+}
+
+input[type="text"]{
+	text-align: center;
+}
+
+.customeHeading{
+	margin-top: 5rem;
+}
+
+#customerImageMapBtnDiv{
+	display: grid;
+	place-items: center;
+	gap: 10px;
+}
+
+#mapDiv{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap:1rem;
+}
+
+#mapholder{
+	height: 350px;
+	width:80%;
+	display: none;
+}
+
+#closeMapBtn{
+	display: none;
+	margin-bottom: 100px;
+}

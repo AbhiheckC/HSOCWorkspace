@@ -1,0 +1,64 @@
+.inputs{
+	display: flex;
+	text-align: center;
+}
+
+.form{
+	display:flex;
+	flex-direction: column;
+	gap:1rem;
+	width: 50%;
+	margin: auto;
+}
+
+.switchDiv{
+	display: flex;
+	text-align: center;
+	margin: auto;
+	width: 50%;
+}
+
+
+/*#customerId, #name{
+	background-color: rgb(209, 211, 213);
+	border: 2px solid white;
+	padding: 1rem 1.8rem;
+	outline: none;
+	font-weight: 600;
+}*/
+
+input[type="text"]{
+	text-align: center;
+}
+
+#saveBtn{
+	background-color: rgb(0, 128, 0);
+	border: 1px solid ;
+	color: white;
+}
+
+/*#total{
+
+	text-align: center;
+	border: 1px solid;
+	padding:10px;
+	margin-right:30px
+}*/
+
+#myTablePrintCollection{
+	font-size: 14px;
+}
+
+#printButton{
+	margin-top:-10px;
+	margin-bottom: 20px;
+}
+
+input[type="checkbox"]:not(:checked) {
+  color: white;
+  border-color: red;
+
+}
+.form-switch .form-check-input {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='red'/%3e%3c/svg%3e");
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8" />
+	<title>404</title>
+	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/4b9ba14b0f.js" crossorigin="anonymous"></script>
+	<link href="style/errorStyle.css" rel="stylesheet" />
+	<script src="script/redirectToLogin.js"></script>
+</head>
+
+<body>
+	<div class="mainbox">
+		<section>
+			<section class="error-container">
+				<span>4</span>
+				<span><span class="screen-reader-text">0</span></span>
+				<span>4</span>
+			</section>
+			<h1 th:text="${errorMessage}"></h1>
+			<div class="msg">
+				<p>It will redirect to Login page in 5 Seconds. If it didn't redirect then Click <a href="/myapp/login">here</a> to go to the Login Page.</p>
+			</div>
+		</section>
+	</div>
+
+</html>

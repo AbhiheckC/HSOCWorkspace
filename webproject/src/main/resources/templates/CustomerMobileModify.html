@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>ग्राहक मोबाइल अपडेट पेज</title>
+	<style th:replace="includes/style :: style"></style>
+	<link href="style/viewAgentStyle.css" rel="stylesheet" />
+
+</head>
+
+<body class="backgroundColor">
+	<header th:replace="includes/header :: header"></header>
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-sm-12 col-md-12">
+				<a href="/myapp/home" class="btn btn-info text-white float-end">पीछे जाइये</a>
+			</div>
+			<div class="col-sm-12 col-md-12">
+				<h3 class="text-center heading" id="hehe">ग्राहक मोबाइल अपडेट फॉर्म</h3>
+
+				<form th:action="@{/viewCustomerMobileModifyList}" method="post" class="singleInputButtonForm">
+					<input type="text" id="customerId" name="customerId" placeholder="ग्राहक क्रमांक"
+						class=".ui-box .top-leftStart-backward" required />
+					<input type="submit" class="submitBtn" value="Submit" />
+				</form>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 col-md-12 mt-4" th:if="${agentList != null}">
+				<h3 class="heading text-center"> ग्राहक सूची </h3>
+				<div class="text-center">
+					<div class="table-responsive" id="table">
+						<table class="table table-editable">
+							<thead class="thead">
+								<tr class="table-success">
+									<th>ग्राहक क्रमांक</th>
+									<th>ग्राहक नाम</th>
+									<th>मोबाइल नंबर</th>
+									<th>सेव</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<form method="post" th:action="@{/modifyCustomerMobile}"
+										th:object="${collectionMobileList}">
+										<td th:text="${agentList[0].customerId}"></td>
+										<td th:utext="${agentList[0].localLanguageName}"></td>
+										<input type="hidden" name="customerId" th:value="${agentList[0].customerId}" />
+										<td>
+											<input type="text" id="mobile" name="mobile"
+												th:value="${agentList[0].mobile}" maxlength="10" minlength="10"
+												oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+												required />
+										</td>
+										<td>
+											<input type="submit" id="saveBtn" class="btn" value="Update" />
+										</td>
+									</form>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+	<script th:replace="includes/script :: script"></script>
+	<script th:if="${isMobileUpdate != null}" th:inline="javascript">
+		//alert(th:text = "${isCollectionSaved}");
+		alert([[${#strings.escapeJavaScript(isMobileUpdate)}]]);
+	</script>
+	<!--<footer th:replace="includes/footer :: footer"></footer>-->
+</body>
+
+</html>

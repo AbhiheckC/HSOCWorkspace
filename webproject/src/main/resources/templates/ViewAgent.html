@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>कलेक्शन पेज</title>
+	<style th:replace="includes/style :: style"></style>
+	<link href="style/viewAgentStyle.css" rel="stylesheet" />
+</head>
+
+<body class="backgroundColor">
+	<header th:replace="includes/header :: header"></header>
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-sm-12 col-md-12">
+				<a href="/myapp/home" class="btn btn-info text-white float-end">पीछे जाइये</a>
+			</div>
+			<div class="col-sm-12 col-md-12">
+				<h3 class="text-center heading" id="hehe">कलेक्शन फॉर्म</h3>
+
+				<form th:action="@{/viewAgentList}" method="post" class="singleInputButtonForm">
+					<input type="text" id="customerId" name="customerId" placeholder="ग्राहक क्रमांक"
+						class=".ui-box .top-leftStart-backward" required />
+					<input type="submit" class="submitBtn" value="Submit" />
+				</form>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 col-md-12 mt-4" th:if="${agentList != null}">
+				<h3 class="heading text-center"> ग्राहक सूची </h3>
+				<h6><b>ग्राहक क्रमांक : </b><span th:text="${agentList[0].customerId}"></span></h6>
+				<div class="d-flex justify-content-between mb-2 mt-2">
+
+					<div>
+						<h6><b>ग्राहक नाम (English) : </b><span th:text="${agentList[0].name}"></span></h6>
+					</div>
+					<div>
+						<!-- <h6><b>मोबाइल नंबर : </b><span th:text="${agentList[0].mobile}"></span></h6>-->
+						<label for="mobile"><b>मोबाइल नंबर : </b></label>
+						<input type="text" name="mobile" id="mobile" th:value="${agentList[0].mobile}" readonly />
+					</div>
+				</div>
+				<div class="d-flex justify-content-between">
+					<div>
+						<h6><b>ग्राहक नाम (हिंदी) : <span th:utext="${agentList[0].localLanguageName}"></span></b></h6>
+					</div>
+					<div>
+						<label for="receiptNo"><b>रसीद क्रमांक :</b></label>
+						<input type="text" name="receiptNoInput" id="receiptNoInput" th:value="${agentList[0].receiptNo}" readonly />
+					</div>
+				</div>
+				<div class="form-check form-switch">
+					<label class="form-check-label" for="switch">Send SMS</label>
+					<input class="form-check-input" type="checkbox" id="switch">
+				</div>
+
+				<div id="responseMessage" class="text-center hidden"></div>
+
+				<div class="text-center">
+					<div class="table-responsive" id="table">
+						<table class="table table-editable">
+							<thead class="thead">
+								<tr class="table-success">
+									<th>खाते क्रमांक</th>
+									<th>खाता प्रकार</th>
+									<th>अंतिम तारीख</th>
+									<th>किश्त राशि</th>
+									<th>शेष राशि</th>
+									<th>कलेक्शन मात्रा</th>
+									<th>सेव</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="agent : ${agentList}">
+									<form method="post" th:action="@{/saveCollection}" th:target="hiddenFrame"
+										th:object="${agentCollectionList}" id="collectionForm">
+										<td th:text="${agent.accountCode}"></td>
+										<td th:utext="${agent.accountType}"></td>
+										<td th:text="${agent.reviewDate}"></td>
+										<td th:text="${agent.installmentAmount}"></td>
+										<td th:text="${agent.ledgerbalance}"></td>
+										<input type="hidden" name="customerId" th:value="${agent.customerId}" />
+										<input type="hidden" name="accountCode" th:value="${agent.accountCode}" />
+										<input type="hidden" name="accountType" th:value="${agent.accountType}" />
+										<input type="hidden" name="name" th:value="${agent.name}" />
+										<input type="hidden" name="ledgerbalance" th:value="${agent.ledgerbalance}" />
+										<td><input type="number" id="collectionAmount" name="collectionAmount" min="0"
+												required /></td>
+										<input type="hidden" id="latitude" name="latitude" />
+										<input type="hidden" id="longitude" name="longitude" />
+										<input type="hidden" id="receiptNo" name="receiptNo" />
+										<input type="hidden" id="sendSMSInput" readonly />
+										<!-- <input type="hidden" id="collectionResponse" name="collectionResponse"
+											th:value="${isCollectionSaved}" />-->
+										<td><input type="submit" id="saveBtn" class="btn" value="Save" />
+										</td>
+									</form>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td><input type="text" id="total" name="total" disabled /></td>
+									<td><button onclick="totalAmount()" class="btn btn-success">कुल रूपए</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<!--<ul class="nav justify-content-center row">
+							<li class="nav-item">
+								<button onclick="totalAmount()" class="btn btn-success">कुल रूपए</button>
+							</li>
+							<p id="total" class="nav-item"></p>
+						</ul>
+						<div class="d-flex justify-content-end gap-3">
+
+							<div class="float-left">
+								<button onclick="totalAmount()" class="btn btn-success">कुल रूपए</button>
+							</div>
+							<div class="ml-4">
+								
+								<input type="text" id="total" name="total" disabled />
+							</div>
+						</div>-->
+					</div>
+				</div>
+			</div>
+			<iframe id="hiddenFrame" name="hiddenFrame" style="display: none;"
+				onload="handleResponse(JSON.parse(this.contentDocument.body.innerText))"></iframe>
+			<div id="messageContainer"></div>
+
+
+		</div>
+	</div>
+	<script th:replace="includes/script :: script"></script>
+	<script src="script/viewAgentScript.js"></script>
+	<script th:if="${isDataMissing != null}" th:inline="javascript">
+		alert("No data available!");
+	</script>
+	<script th:if="${isCollectionSaved != null}" th:inline="javascript">
+		//alert(th:text = "${isCollectionSaved}");
+		alert([[${#strings.escapeJavaScript(isCollectionSaved)}]]);
+	</script>
+	<script src="script/location.js"></script>
+	<script src="script/idNameSwitchBtn.js"></script>
+
+
+	<!--<footer th:replace="includes/footer :: footer"></footer>-->
+</body>
+
+</html>
